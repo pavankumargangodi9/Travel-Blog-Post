@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}{{ post.title }}{% endblock %}
+{% block content %}
+<article>
+    <h1>{{ post.title }}</h1>
+    <p>{{ post.date_posted.strftime('%Y-%m-%d') }}</p>
+    <p>{{ post.content }}</p>
+</article>
+
+<section>
+    <h2>Comments</h2>
+    {% for comment in comments %}
+        <article>
+            <p>{{ comment.author.username }} said:</p>
+            <p>{{ comment.content }}</p>
+        </article>
+    {% endfor %}
+</section>
+
+<form method="POST" action="{{ url_for('main.new_comment', post_id=post.id) }}">
+    {{ form.hidden_tag() }}
+    <div>
+        {{ form.content.label }} {{ form.content(cols=30, rows=3) }}
+        {% for error in form.content.errors %}
+            <span class="error">{{ error }}</span>
+        {% endfor %}
+    </div>
+    <button type="submit">Submit</button>
+</form>
+{% endblock %}

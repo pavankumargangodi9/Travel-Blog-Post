@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Manage Posts{% endblock %}
+{% block content %}
+<h1>Manage Posts</h1>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for post in posts %}
+            <tr>
+                <td>{{ post.id }}</td>
+                <td>{{ post.title }}</td>
+                <td>{{ post.author.username }}</td>
+                <td>
+                    <a href="{{ url_for('admin.edit_post', post_id=post.id) }}">Edit</a>
+                    <form method="POST" action="{{ url_for('admin.delete_post', post_id=post.id) }}" style="display:inline;">
+                        {{ form.hidden_tag() }}
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
